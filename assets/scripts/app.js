@@ -12,7 +12,24 @@ class Dom {
   }
 }
 
-class Tooltip {}
+class Tooltip {
+  remove = () => {
+    this.element.remove();
+    this.element.parentElement.removeChild(this.element);
+  };
+
+  add() {}
+
+  show() {
+    // console.log('The tooltip....')
+    const tooltipEl = document.createElement("div");
+    tooltipEl.className = "card";
+    tooltipEl.textContent = "this is just a text content";
+    tooltipEl.addEventListener("click", this.remove);
+    this, (element = tooltipEl);
+    document.body.append(tooltipEl);
+  }
+}
 
 class ProjectItem {
   constructor(id, updateProjectListFunction, type) {
@@ -22,9 +39,15 @@ class ProjectItem {
     this.connectMoreInfoButton(type);
   }
 
+  showMoreInfoHandler() {
+    const tooltip = new Tooltip();
+    tooltip.show();
+  }
+
   connectMoreInfoButton() {
-    const projectItemEl = document.getElementById(this.id); 
-    const moreInfoButton = projectItemEl.querySelector('button:first-of-type') 
+    const projectItemEl = document.getElementById(this.id);
+    const moreInfoButton = projectItemEl.querySelector("button:first-of-type");
+    moreInfoButton.addEventListener("click", this.showMoreInfoHandler);
   }
 
   connectSwitchButton(type) {
@@ -96,6 +119,5 @@ class App {
 //   window.open("mailto:balogunjames012@gmail.com?subject=Trying it for the first time&body=My message")
 // }
 // emailEl.addEventListener('click', message);
-
 
 App.init();
