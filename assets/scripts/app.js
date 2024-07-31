@@ -12,26 +12,57 @@ class Dom {
   }
 }
 
-class Tooltip {
-  remove = () => {
-    this.element.remove();
-    this.element.parentElement.removeChild(this.element);
+class Component {
+  constructor(hostElId, insertBefore = false) {
+    if (hostElId) {
+      this.hostEl = document.getElementById(hostElId);
+    } else {
+      this.hostEl = document.body;
+    }
+    this.insertBefore = insertBefore;
+  }
+
+  remove() {
+    if (this.element) {
+      this.element.remove();
+    }
+  }
+
+  add() {
+    // console.log('The tooltip....')
+    // document.body.append(this.element);
+    this.hostEl.insertAdjacentElement(
+      this.insertBefore ? "afterbegin" : "beforeend",
+      this.element
+    );
+  }
+}
+
+class Tooltip extends Component {
+  constructor(closeNotifierFn) {
+    // super('active-projects', true);
+    super()
+    this.closeNotifier = closeNotifierFn;
+    this.create();
+  }
+
+  closeTooltip = () => {
+    this.remove();
+    this.closeNotifier;
   };
 
-  add() {}
-
-  show() {
-    // console.log('The tooltip....')
+  create() {
     const tooltipEl = document.createElement("div");
     tooltipEl.className = "card";
     tooltipEl.textContent = "this is just a text content";
-    tooltipEl.addEventListener("click", this.remove);
-    this, (element = tooltipEl);
-    document.body.append(tooltipEl);
+    tooltipEl.addEventListener("click", this.closeTooltip);
+    this.element = tooltipEl;
   }
 }
 
 class ProjectItem {
+  hasActiveTooltip = false;
+
   constructor(id, updateProjectListFunction, type) {
     this.id = id;
     this.updateProjectListHandler = updateProjectListFunction;
@@ -40,8 +71,14 @@ class ProjectItem {
   }
 
   showMoreInfoHandler() {
-    const tooltip = new Tooltip();
-    tooltip.show();
+    if (this.hasActiveTooltip) {
+      return;
+    }
+    const tooltip = new Tooltip(() => {
+      this.hasActiveTooltip = false;
+    });
+    tooltip.add();
+    this.hasActiveTooltip = true;
   }
 
   connectMoreInfoButton() {
