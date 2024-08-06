@@ -177,15 +177,15 @@ class App {
     // anotherScript.textContent = 'alert("Lets fucking gooo!!!");';
     // document.head.append(anotherScript);
     // this.startTry()
-    // setTimeout(this.startTry, 3000)
+    setTimeout(this.startTry, 3000)
   }
 
-  // static startTry() {
-  //   const tryScript = document.createElement("script");
-  //   tryScript.src = "assets/scripts/try.js";
-  //   tryScript.defer = true;
-  //   document.head.append(tryScript);
-  // }
+  static startTry() {
+    const tryScript = document.createElement("script");
+    tryScript.src = "assets/scripts/try.js";
+    tryScript.defer = true;
+    document.head.append(tryScript);
+  }
 }
 
 // const emailEl = document.getElementById('email')
