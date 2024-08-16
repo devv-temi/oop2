@@ -1,10 +1,26 @@
-console.log("trying this for the first time...");
+// const button = document.getElementById("button");
 
-// setInterval(() => {
-//     console.log("timer settings...")
-// }, 3000)
+// function trackUser() {
+//   navigator.geolocation.getCurrentPosition(
+//     (posData) => {
+//       console.log(posData);
+//     },
+//     (error) => {
+//       console.error();
+//     }
+//   );
+// }
 
-const button = document.querySelector("button");
+// button.addEventListener("click", trackUser);
 
-button.onclick = function () {};
 
+const myPromise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("Timer completed!");
+  }, 1000);
+})
+  .then((text) => {
+    throw new Error("Failed!");
+  })
+  .catch((err) => console.log(err))
+  .then(() => console.log("Does that execute?"));
